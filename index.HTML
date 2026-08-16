@@ -1,0 +1,4178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=yes">
+
+           <title>秘鲁工资计算器 </title>
+<title>Perú Calculadora delperu 2026</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    background:#f7f8f8;
+    color:#222;
+    padding:14px;
+}
+
+.app{
+    width:100%;
+    max-width:1100px;
+    margin:0 auto;
+}
+
+h1{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    margin:6px 0 18px;
+}
+
+/* =========================
+   TAB
+========================= */
+
+.tab-wrap{
+    display:flex;
+    width:100%;
+    gap:4px;
+    margin-bottom:0;
+}
+
+.tab-btn{
+    flex:1;
+    min-width:0;
+    border:0;
+    background:#e9ecec;
+    color:#333;
+    padding:13px 6px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    border-radius:8px 8px 0 0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+.tab-btn.active{
+    background:#2c786c;
+    color:#fff;
+}
+
+.tab-panel{
+    display:none;
+    width:100%;
+    background:#fff;
+    border:1px solid #e2e6e5;
+    border-top:0;
+    border-radius:0 0 10px 10px;
+    padding:16px;
+}
+
+.tab-panel.show{
+    display:block;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.form-group{
+    background:#fff;
+    border:1px solid #e4e8e7;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:14px;
+}
+
+.form-group h3{
+    font-size:16px;
+    color:#173f3a;
+    margin-bottom:14px;
+    font-weight:700;
+}
+
+.field-row{
+    margin-bottom:13px;
+}
+
+.field-row:last-child{
+    margin-bottom:0;
+}
+
+.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.grid3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+label.desc{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-size:13px;
+    color:#555;
+    margin-bottom:5px;
+    line-height:1.35;
+}
+
+input,
+select{
+    width:100%;
+    min-height:42px;
+    border:1px solid #d5dcda;
+    border-radius:7px;
+    padding:9px 11px;
+    background:#fff;
+    color:#222;
+    font-size:15px;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#2c786c;
+    box-shadow:0 0 0 2px rgba(44,120,108,.08);
+}
+
+.static-value{
+    width:100%;
+    min-height:42px;
+    display:flex;
+    align-items:center;
+    border:1px solid #d5dcda;
+    border-radius:7px;
+    padding:9px 11px;
+    background:#f7f8f8;
+    color:#222;
+    font-size:15px;
+}
+
+.small-note{
+    font-size:11px;
+    color:#777;
+    line-height:1.5;
+    margin-top:5px;
+}
+
+.green-note{
+    color:#2c883c;
+}
+
+.red-note{
+    color:#b82626;
+}
+
+/* =========================
+   MONTH
+========================= */
+
+.month-bar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.month-bar label{
+    white-space:nowrap;
+    font-size:14px;
+    font-weight:600;
+}
+
+.month-bar select{
+    max-width:150px;
+}
+
+/* =========================
+   CALENDAR
+========================= */
+
+.calendar-wrap{
+    width:100%;
+    border:1px solid #e2e6e5;
+    border-radius:9px;
+    overflow:hidden;
+    background:#fff;
+    margin-bottom:15px;
+}
+
+.cal-header{
+    display:grid;
+    grid-template-columns:repeat(7,minmax(0,1fr));
+    background:#f1f3f3;
+}
+
+.cal-header div{
+    text-align:center;
+    padding:8px 2px;
+    font-size:12px;
+    color:#666;
+    border-right:1px solid #e5e8e7;
+}
+
+.cal-header div:last-child{
+    border-right:0;
+}
+
+.cal-week{
+    display:grid;
+    grid-template-columns:repeat(7,minmax(0,1fr));
+}
+
+.cal-cell{
+    min-width:0;
+    min-height:78px;
+    padding:5px;
+    border-right:1px solid #eceeed;
+    border-bottom:1px solid #eceeed;
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+}
+
+.cal-week .cal-cell:last-child{
+    border-right:0;
+}
+
+.cal-cell.empty{
+    background:#f4f5f5;
+}
+
+.cal-cell.sunday{
+    background:#f7f7f7;
+}
+
+.cal-cell.holiday{
+    background:#fff0f0;
+}
+
+.cal-daynum{
+    font-size:13px;
+    font-weight:700;
+    line-height:1.1;
+}
+
+.cal-holiday-name{
+    font-size:9px;
+    line-height:1.2;
+    color:#b82626;
+    margin-top:2px;
+}
+
+.cal-cell input{
+    margin-top:auto;
+    min-height:30px;
+    height:30px;
+    padding:2px 3px;
+    text-align:center;
+    font-size:13px;
+}
+
+/* =========================
+   OVERTIME SUMMARY
+========================= */
+
+.overtime-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.sum-card{
+    border:1px solid #e3e7e6;
+    border-radius:8px;
+    padding:13px 8px;
+    text-align:center;
+    background:#fff;
+}
+
+.sum-card .title{
+    font-size:12px;
+    color:#666;
+}
+
+.sum-card .val{
+    font-size:22px;
+    font-weight:800;
+    margin:5px 0;
+    color:#173f3a;
+}
+
+.sum-card .tip{
+    font-size:10px;
+    color:#777;
+}
+
+/* =========================
+   DETAIL
+========================= */
+
+.item-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:10px 4px;
+    border-bottom:1px solid #ededed;
+    font-size:14px;
+    line-height:1.35;
+}
+
+.item-row:last-child{
+    border-bottom:0;
+}
+
+.item-row span:last-child{
+    text-align:right;
+    white-space:nowrap;
+}
+
+.item-row.total{
+    background:#f5f7f6;
+    font-weight:700;
+    margin-top:3px;
+}
+
+.money-green{
+    color:#2c883c;
+}
+
+.money-red{
+    color:#b82626;
+}
+
+.money-blue{
+    color:#276b9d;
+}
+
+.neto-box{
+    border:2px solid #cde8d4;
+    background:#f0faf3;
+    border-radius:10px;
+    padding:20px;
+    text-align:center;
+    margin-top:15px;
+}
+
+.neto-box .label{
+    font-size:14px;
+    color:#555;
+}
+
+.neto-box .money{
+    font-size:32px;
+    font-weight:900;
+    color:#2c883c;
+    margin-top:6px;
+}
+
+.footer{
+    margin-top:15px;
+    padding:12px 4px;
+    font-size:13px;
+    color:#666;
+}
+
+.footer strong{
+    color:#2c883c;
+    font-size:21px;
+}
+
+/* =========================
+   WARNING / INFO
+========================= */
+
+.info-box{
+    background:#f3f8f7;
+    border-left:4px solid #2c786c;
+    padding:10px 12px;
+    border-radius:5px;
+    font-size:12px;
+    color:#555;
+    line-height:1.5;
+    margin-bottom:14px;
+}
+
+.warning-box{
+    background:#fff8e8;
+    border-left:4px solid #d89c24;
+    padding:10px 12px;
+    border-radius:5px;
+    font-size:12px;
+    color:#765b18;
+    line-height:1.5;
+    margin-bottom:14px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width:700px){
+
+    body{
+        padding:8px;
+    }
+
+    h1{
+        font-size:19px;
+        margin:5px 0 12px;
+    }
+
+    .tab-btn{
+        padding:11px 3px;
+        font-size:12px;
+    }
+
+    .tab-panel{
+        padding:10px;
+    }
+
+    .form-group{
+        padding:12px;
+        border-radius:9px;
+    }
+
+    .form-group h3{
+        font-size:15px;
+    }
+
+    .grid2,
+    .grid3{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .month-bar{
+        align-items:stretch;
+    }
+
+    .month-bar select{
+        max-width:none;
+    }
+
+    .calendar-wrap{
+        overflow:hidden;
+    }
+
+    .cal-cell{
+        min-height:68px;
+        padding:4px 2px;
+    }
+
+    .cal-daynum{
+        font-size:12px;
+    }
+
+    .cal-holiday-name{
+        font-size:8px;
+    }
+
+    .cal-cell input{
+        min-height:28px;
+        height:28px;
+        font-size:12px;
+        padding:1px;
+    }
+
+    .overtime-summary{
+        gap:5px;
+    }
+
+    .sum-card{
+        padding:10px 4px;
+    }
+
+    .sum-card .val{
+        font-size:19px;
+    }
+
+    .sum-card .tip{
+        font-size:9px;
+    }
+
+    .item-row{
+        font-size:13px;
+    }
+
+    .neto-box .money{
+        font-size:28px;
+    }
+}
+
+@media (max-width:360px){
+
+    .tab-btn{
+        font-size:11px;
+    }
+
+    .cal-cell{
+        min-height:63px;
+    }
+
+    .cal-cell input{
+        font-size:11px;
+    }
+
+    .item-row{
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+                  <h1>秘鲁工资计算器 </h1>
+<h1>Calculadora de Sueldo del Perú 2026</h1>
+<div class="tab-wrap">
+    <button type="button"
+            class="tab-btn active"
+            data-tab="tab-cal">
+        加班录入<br>
+        <small>Horas Extras</small>
+    </button>
+
+    <button type="button"
+            class="tab-btn"
+            data-tab="tab-emp">
+        基础信息<br>
+        <small>Datos del Basico</small>
+    </button>
+
+    <button type="button"
+            class="tab-btn"
+            data-tab="tab-detail">
+        工资明细<br>
+        <small>Detalle de Sueldo</small>
+    </button>
+</div>
+
+
+<!-- =====================================================
+     TAB 1
+===================================================== -->
+
+<div id="tab-cal" class="tab-panel show">
+
+    <div class="month-bar">
+        <label>选择月份 / Mes</label>
+
+        <select id="selMonth">
+            <option value="1">1月 / Enero</option>
+            <option value="2">2月 / Febrero</option>
+            <option value="3">3月 / Marzo</option>
+            <option value="4">4月 / Abril</option>
+            <option value="5">5月 / Mayo</option>
+            <option value="6">6月 / Junio</option>
+            <option value="7">7月 / Julio</option>
+            <option value="8">8月 / Agosto</option>
+            <option value="9">9月 / Septiembre</option>
+            <option value="10">10月 / Octubre</option>
+            <option value="11">11月 / Noviembre</option>
+            <option value="12">12月 / Diciembre</option>
+        </select>
+    </div>
+
+    <div class="calendar-wrap" id="calendarContainer"></div>
+
+    <div class="overtime-summary">
+
+        <div class="sum-card">
+            <div class="title">
+                25% 档 
+            </div>
+
+            <div class="val" id="ov25">0.0</div>
+
+            <div class="tip">
+                前2小时 / primeras 2 horas
+            </div>
+        </div>
+
+        <div class="sum-card">
+            <div class="title">
+                35% 档
+            </div>
+
+            <div class="val" id="ov35">0.0</div>
+
+            <div class="tip">
+                超出2小时 / Exceso
+            </div>
+        </div>
+
+        <div class="sum-card">
+            <div class="title">
+                100% 档
+            </div>
+
+            <div class="val" id="ov100">0.0</div>
+
+            <div class="tip">
+                节假日/六休一周日
+            </div>
+        </div>
+
+    </div>
+
+    <div class="info-box">
+        节假日红色标记。普通工作日按每天前2小时25%、第3小时起35%；
+        你选择“六休一”时，星期日加班按100%；
+        其他制度星期日按25%/35%。
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TAB 2
+===================================================== -->
+
+<div id="tab-emp" class="tab-panel">
+
+    <!-- 基本信息 -->
+
+    <div class="form-group">
+
+        <h3>
+            基本信息 · Información Básica
+        </h3>
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    基本工资 (Sueldo Básico)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="baseSalary"
+                value=""
+                placeholder="0">
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    入职日期 (Fecha de Ingreso)
+                </span>
+            </label>
+
+            <input
+                type="date"
+                id="hireDate"
+                value="2026-01-01">
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    是否有儿女 (Asignación Familiar)
+                </span>
+            </label>
+
+            <select id="hasChildren">
+
+                <option value="no">
+                    无 / No
+                </option>
+
+                <option value="yes" selected>
+                    有 / Sí
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    是否属于 EPS
+                </span>
+
+                <span>EPS</span>
+            </label>
+
+            <select id="hasEPS">
+
+                <option value="no" selected>
+                    否 / No · EsSalud 9%
+                </option>
+
+                <option value="yes">
+                    是 / Sí · EPS
+                </option>
+
+            </select>
+
+        </div>
+<div class="small-note">
+               EPS 全称：Entidades Prestadoras de Salud 私人医疗服务商（医疗补充险）秘鲁 2026法定缴费规则企业法定缴纳基本工资的9% 给 EsSalud 公立医保。员工选 EPS 后， 9% 拆分： 2.25% → EPS（私立门诊基础医疗） 6.75% 保留给 EsSalud（重症、大病）
+            </div>
+
+    </div>
+
+
+    <!-- 补贴收入 -->
+
+    <div class="form-group">
+
+        <h3>
+            补贴收入 · Asignaciones e Ingresos
+        </h3>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    餐补 (Asignación de Alimentación)
+                </span>
+
+                <span>S/ 月</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="mealAllowance"
+                value="">
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    工作条件补贴 (Bonif. Cond. Trabajo)
+                </span>
+
+                <span>S/ 月</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="workConditionAllowance"
+                value="">
+
+            <div class="small-note">
+                按当月实际出勤天数计算：
+                月工资 ÷ 30 × 实际出勤天数。
+            </div>
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    交通补贴 (Asignación de Transporte)
+                </span>
+
+                <span>S/ 月</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="transportAllowance"
+                value="">
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    报销返还 (Reintegros)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="reimbursement"
+                value="">
+        </div>
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        高空补贴
+                        (Bono por Altura)
+                    </span>
+
+                    <span>S/</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="100"
+                    min="0"
+                    id="heightBonus"
+                    value="">
+
+            </div>
+
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        其他税返还
+                        (Otros Ingresos Afectos)
+                    </span>
+
+                    <span>S/</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="100"
+                    min="0"
+                    id="otherIncome"
+                    value="">
+
+            </div>
+      
+    </div>
+
+
+    <!-- 休假制度 -->
+
+    <div class="form-group">
+
+        <h3>
+            休假制度 · Sistema de descanso
+        </h3>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    休假制度 / 星期日规则
+                </span>
+            </label>
+
+            <select id="restSystem">
+                <option value="6x1" selected>
+                    六休一 / 6×1（星期日作为休息日）
+                </option>
+                <option value="7x7">
+                    上7休7
+                </option>
+                <option value="8x6">
+                    上8休6
+                </option>
+                <option value="10x5">
+                    上10休5
+                </option>
+                <option value="14x7">
+                    上14休7
+                </option>
+                <option value="14x14">
+                    上14休14
+                </option>
+                <option value="15x15">
+                    上15休15
+                </option>
+                <option value="20x10">
+                    上20休10
+                </option>
+                <option value="21x7">
+                    上21休7
+                </option>
+                <option value="28x7">
+                    上28休7
+                </option>
+                <option value="28x14">
+                    上28休14
+                </option>
+            </select>
+
+            <div class="small-note">
+                当前制度仅判断“星期日是否为固定休息日”加班100%档；大家都是28+7，星期天继续做牛马吧！！！
+                           </div>
+
+        </div>
+
+
+        <div class="grid2">
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        缺勤/事假
+                        (Faltas / Licencia)
+                    </span>
+
+                    <span>天</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="1"
+                    min="0"
+                    id="absenceDays"
+                    value="">
+<div class="small-note">
+                缺勤不干活，是不是去泡妞啦？？喝醉了吧!!
+                           </div>
+            </div>
+
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        病假
+                        (Descanso Médico)
+                    </span>
+
+                    <span>天</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="1"
+                    min="0"
+                    id="sickLeaveDays"
+                    value="">
+
+            </div>
+
+        </div>
+
+
+        <div class="grid2">
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        本年度此前病假
+                        (Días de Incapacidad Previos)
+                    </span>
+
+                    <span>天</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="1"
+                    min="0"
+                    id="priorSickDays"
+                    value="">
+
+                <div class="small-note">
+                    用于判断本年度前20天由雇主承担。
+                </div>
+
+            </div>
+
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        当月已休年假
+                        (Vacaciones Usadas)
+                    </span>
+
+                    <span>天</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="1"
+                    min="0"
+                    id="usedVacationDays"
+                    value="">
+<div class="small-note">
+                入职满一年才有，不要论写！！！！小心挨揍
+                           </div>
+            </div>
+
+        </div>
+
+
+        <div class="grid2">
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        年假折现
+                        (Compra Vacacional)
+                    </span>
+
+                    <span>天</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="1"
+                    min="0"
+                    id="annualLeaveCashDays"
+                    value="">
+
+            </div>
+
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        陪产假津贴
+                        (Licencia Paternidad)
+                    </span>
+
+                    <span>S/</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="50"
+                    min="0"
+                    id="paternityBenefit"
+                    value="">
+
+            </div>
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    疾病补助其他金额
+                    (Subsidio Enfermedad)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="50"
+                min="0"
+                id="extraSicknessBenefit"
+                value="">
+
+        </div>
+
+
+        <div class="info-box">
+            秘鲁私人公司病假：每个日历年最初20个病假日由雇主支付；
+            从第21天起符合条件时进入 EsSalud 病假补助。
+        </div>
+
+    </div>
+
+
+    <!-- 养老 -->
+
+    <div class="form-group">
+
+        <h3>
+            养老制度 · Sistema de Pensiones
+        </h3>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    养老制度
+                </span>
+            </label>
+
+            <select id="pensionSystem">
+
+                <option value="ONP">
+                    ONP 国家养老金 / SNP 13%
+                </option>
+
+                <option value="AFP" selected>
+                    AFP 私人养老金
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field-row" id="afpRow">
+
+            <label class="desc">
+                <span>
+                    AFP 公司
+                    (Administradora de Fondos)
+                </span>
+            </label>
+
+            <select id="afpCompany">
+
+                <option value="Habitat">
+                    Habitat
+                </option>
+
+                <option value="Integra">
+                    Integra
+                </option>
+
+                <option value="Prima">
+                    Prima
+                </option>
+
+                <option value="Profuturo">
+                    Profuturo
+                </option>
+
+            </select>
+
+            <div class="small-note">
+                2026年7月官方费率：强制缴存10%、保险1.37%；
+                流量佣金按AFP公司不同而不同。
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Renta 5ta -->
+
+    <div class="form-group">
+
+        <h3>
+            第五类所得税 · Renta de Quinta Categoría
+        </h3>
+
+
+        <div class="grid2">
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        本年度此前应税收入
+                        (Renta Afecta Acumulada)
+                    </span>
+
+                    <span>S/</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="100"
+                    min="0"
+                    id="priorTaxableIncome"
+                    value="">
+<div class="small-note">
+                你肯定不知道，哈哈。。。
+            </div>
+
+            </div>
+
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        本年度此前已扣Renta
+                        (Retenciones Previas)
+                    </span>
+
+                    <span>S/</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="100"
+                    min="0"
+                    id="priorTaxRetention"
+                    value="">
+<div class="small-note">
+                你不可能知道，空下来吧。哈哈。。。
+            </div>
+            </div>
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    本年度其他已发生应税收入
+                    (Otros Ingresos Afectos)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="otherTaxableIncome"
+                value="">
+<div class="small-note">
+                继续交白卷吧，哈哈。。。
+            </div>
+        </div>
+
+
+        <div class="small-note">
+            2026 UIT = S/5,500。年度先扣7 UIT，再按8%、14%、17%、20%、30%累进税率计算。
+            月度预扣按照SUNAT规则计算；7月/12月奖金会影响当月预扣。
+        </div>
+
+        <div class="warning-box">
+            注意：第五类税属于年度预计税额的月度预扣。若工资、奖金、前期已扣税或其他应税收入发生变化，
+            应重新预测全年收入；本计算器用于估算，不替代SUNAT正式申报。
+        </div>
+
+    </div>
+
+    
+    <!-- 扣款 -->
+
+    <div class="form-group">
+
+        <h3>
+            扣款项目 · Descuentos
+        </h3>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    法院强制扣款
+                    (Descuento Judicial)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="courtDeduction"
+                value="">
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    迟到/事假扣款
+                    (Tardanzas / Faltas)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="lateDeduction"
+                value="">
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    预支工资
+                    (Adelanto Sueldo)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="salaryAdvance"
+                value="">
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    员工贷款
+                    (Préstamos al Personal)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="100"
+                min="0"
+                id="personalLoan"
+                value="">
+
+        </div>
+
+
+        <div class="field-row">
+
+            <label class="desc">
+                <span>
+                    其他扣款
+                    (Otros Descuentos)
+                </span>
+
+                <span>S/</span>
+            </label>
+
+            <input
+                type="number"
+                step="1000"
+                min="0"
+                id="otherDeduction"
+                value="">
+
+        </div>
+
+    </div>
+
+
+    <!-- Seguro Vida Ley -->
+
+    <div class="form-group">
+
+        <h3>
+            法律生命保险 · Seguro Vida Ley
+        </h3>
+
+
+        <div class="grid2">
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        Vida Ley保险费率
+                    </span>
+
+                    <span>%</span>
+                </label>
+
+                <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    id="vidaLeyRate"
+                    value="">
+
+                <div class="small-note">
+                    费率依保险公司/保单而定。费率区间（2026 市场统一区间，由 SBS 监管）
+                   普通成年员工：0.5%～1.5%，随员工年龄上浮：
+                   30 岁以下：0.5%～0.8%
+                   30–50 岁：0.8%～1.2%
+                   50 岁以上：1.2%～1.5%                  
+                </div>
+
+            </div>
+
+
+            <div class="field-row">
+
+                <label class="desc">
+                    <span>
+                        Vida Ley
+                        (Seguro obligatorio)
+                    </span>
+                </label>
+
+                <div class="small-note">
+                    雇主承担 / A cargo del empleador
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TAB 3
+===================================================== -->
+
+<div id="tab-detail" class="tab-panel">
+
+    <div id="detailContent"></div>
+
+</div>
+
+
+<div class="footer">
+
+    实发工资 / Neto a Pagar：
+
+    <strong id="footerNeto">
+        S/ 0.00
+    </strong>
+
+    <span id="footerMonth">
+        · 2026年7月
+    </span>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   基础参数
+========================================================= */
+
+const YEAR = 2026;
+
+const UIT = 5500;
+
+const RMV = 1130;
+
+const FAMILY_ALLOWANCE = RMV * 0.10;
+
+
+/*
+ * AFP数据（按原程序要求保留）
+ * 四家AFP的 commission 全部保持 0。
+ * 10% fondo + 1.37% seguro
+ */
+const AFP_RATE = {
+    Habitat:{
+        aporte:10,
+        prima:1.37,
+        commission:0
+    },
+
+    Integra:{
+        aporte:10,
+        prima:1.37,
+        commission:0
+    },
+
+    Prima:{
+        aporte:10,
+        prima:1.37,
+        commission:0
+    },
+
+    Profuturo:{
+        aporte:10,
+        prima:1.37,
+        commission:0
+    }
+};
+
+
+/*
+ * 2026全国法定节假日
+ */
+const HOLIDAYS = {
+
+    "2026-01-01":"元旦 / Año Nuevo",
+
+    "2026-04-02":"圣周四 / Jueves Santo",
+
+    "2026-04-03":"圣周五 / Viernes Santo",
+
+    "2026-05-01":"劳动节 / Día del Trabajo",
+
+    "2026-06-07":"阿里卡战役 / Batalla de Arica",
+
+    "2026-06-29":"圣彼得圣保罗 / San Pedro y San Pablo",
+
+    "2026-07-23":"空军节 / Día de la Fuerza Aérea",
+
+    "2026-07-28":"国庆日 / Fiestas Patrias",
+
+    "2026-07-29":"国庆日 / Fiestas Patrias",
+
+    "2026-08-06":"胡宁战役 / Batalla de Junín",
+
+    "2026-08-30":"利马圣罗莎 / Santa Rosa de Lima",
+
+    "2026-10-08":"安加莫斯海战 / Combate de Angamos",
+
+    "2026-11-01":"万圣节 / Todos los Santos",
+
+    "2026-12-08":"圣母无原罪 / Inmaculada Concepción",
+
+    "2026-12-09":"阿亚库乔战役 / Batalla de Ayacucho",
+
+    "2026-12-25":"圣诞节 / Navidad"
+};
+
+
+/* 加班
+ * 按月份保存加班日历数据。
+ * 切换月份时只切换当前月份的数据，不删除已经录入的其他月份数据。
+ */
+const overtimeByMonth = {};
+let overtimeHours = {};
+
+let selectedMonth = 7;
+
+
+/* =========================================================
+   工具
+========================================================= */
+
+function num(id){
+
+    const el = document.getElementById(id);
+
+    if(!el){
+        return 0;
+    }
+
+    const n = Number(el.value);
+
+    return Number.isFinite(n) ? n : 0;
+}
+
+
+function text(id){
+
+    const el = document.getElementById(id);
+
+    return el ? el.value : "";
+}
+
+
+function money(n){
+
+    n = Number(n) || 0;
+
+    return "S/ " + n.toLocaleString(
+        "en-US",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+}
+
+
+function clamp(n,min,max){
+
+    return Math.max(min,Math.min(max,n));
+
+}
+
+
+function daysInMonth(year,month){
+
+    return new Date(year,month,0).getDate();
+
+}
+
+
+function dateKey(year,month,day){
+
+    return year +
+        "-" +
+        String(month).padStart(2,"0") +
+        "-" +
+        String(day).padStart(2,"0");
+
+}
+
+
+/* =========================================================
+   Tab
+========================================================= */
+
+function initTabs(){
+
+    document
+        .querySelectorAll(".tab-btn")
+        .forEach(btn=>{
+
+            btn.addEventListener(
+                "click",
+                function(){
+
+                    const target =
+                        this.getAttribute("data-tab");
+
+                    document
+                        .querySelectorAll(".tab-btn")
+                        .forEach(b=>{
+                            b.classList.remove("active");
+                        });
+
+                    document
+                        .querySelectorAll(".tab-panel")
+                        .forEach(p=>{
+                            p.classList.remove("show");
+                        });
+
+                    this.classList.add("active");
+
+                    const panel =
+                        document.getElementById(target);
+
+                    if(panel){
+                        panel.classList.add("show");
+                    }
+
+                    /*
+                     * 手机浏览器重新绘制
+                     * 防止display:none后的宽度计算异常
+                     */
+                    if(target==="tab-cal"){
+                        setTimeout(
+                            ()=>renderCalendar(),
+                            20
+                        );
+                    }
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   Calendar
+========================================================= */
+
+function renderCalendar(){
+
+    const container =
+        document.getElementById(
+            "calendarContainer"
+        );
+
+    if(!container){
+        return;
+    }
+
+    const year = YEAR;
+
+    const month = selectedMonth;
+
+    const total =
+        daysInMonth(year,month);
+
+    /*
+     * Monday = 0
+     * Sunday = 6
+     */
+    const first =
+        new Date(year,month-1,1);
+
+    const firstDay =
+        (first.getDay()+6)%7;
+
+    let html = "";
+
+    html += `
+        <div class="cal-header">
+            <div>一<br>Lun</div>
+            <div>二<br>Mar</div>
+            <div>三<br>Mie</div>
+            <div>四<br>Juv</div>
+            <div>五<br>Vie</div>
+            <div>六<br>Sab</div>
+            <div>日<br>Dom</div>
+        </div>
+    `;
+
+    let day = 1;
+
+    /*
+     * 生成周
+     */
+    while(day <= total){
+
+        html += `<div class="cal-week">`;
+
+        for(let col=0; col<7; col++){
+
+            /*
+             * 月初空白
+             */
+            if(day===1 && col<firstDay){
+
+                html += `
+                    <div class="cal-cell empty"></div>
+                `;
+
+                continue;
+            }
+
+            if(day>total){
+
+                html += `
+                    <div class="cal-cell empty"></div>
+                `;
+
+                continue;
+            }
+
+            const ds =
+                dateKey(year,month,day);
+
+            const date =
+                new Date(year,month-1,day);
+
+            const weekDay =
+                date.getDay();
+
+            const holiday =
+                HOLIDAYS[ds];
+
+            let cls = "cal-cell";
+
+            if(holiday){
+
+                cls += " holiday";
+
+            }else if(weekDay===0){
+
+                cls += " sunday";
+
+            }
+
+            const val =
+                overtimeHours[ds] || "";
+
+            html += `
+
+                <div class="${cls}">
+
+                    <div class="cal-daynum">
+                        ${day}
+                    </div>
+
+                    ${
+                        holiday
+                        ?
+                        `<div class="cal-holiday-name">
+                            ${holiday}
+                        </div>`
+                        :
+                        ""
+                    }
+
+                    <input
+                        type="number"
+                        min="0"
+                        max="24"
+                        step="1"
+                        inputmode="decimal"
+                        value="${val}"
+                        placeholder="0"
+                        data-date="${ds}"
+                        aria-label="${ds} 加班小时"
+                    >
+
+                </div>
+            `;
+
+            day++;
+        }
+
+        html += `</div>`;
+    }
+
+    container.innerHTML = html;
+
+    /*
+     * 事件重新绑定
+     */
+    container
+        .querySelectorAll("input[data-date]")
+        .forEach(input=>{
+
+            input.addEventListener(
+                "input",
+                function(){
+
+                    const ds =
+                        this.getAttribute("data-date");
+
+                    let value =
+                        Number(this.value);
+
+                    if(!Number.isFinite(value)){
+                        value=0;
+                    }
+
+                    value =
+                        clamp(value,0,24);
+
+                    overtimeHours[ds] = value;
+
+                    recalculate();
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   Month
+========================================================= */
+
+function initMonth(){
+
+    const select =
+        document.getElementById("selMonth");
+
+    if(!select){
+        return;
+    }
+
+    select.addEventListener(
+        "change",
+        function(){
+
+            /*
+             * 先保存当前月份已经录入的数据。
+             * 月份切换不会删除历史月份的数据。
+             */
+            overtimeByMonth[selectedMonth] = overtimeHours;
+
+            selectedMonth =
+                Number(this.value);
+
+            /*
+             * 读取目标月份已经保存的数据。
+             * 第一次进入该月份则为空白。
+             */
+            overtimeHours =
+                overtimeByMonth[selectedMonth] || {};
+
+            updateFooterMonth();
+
+            renderCalendar();
+
+            recalculate();
+
+        }
+    );
+
+}
+
+
+function updateFooterMonth(){
+
+    const el =
+        document.getElementById("footerMonth");
+
+    if(el){
+
+        el.textContent =
+            " · " +
+            YEAR +
+            "年" +
+            selectedMonth +
+            "月";
+
+    }
+
+}
+
+
+/* =========================================================
+   员工数据
+========================================================= */
+
+function readEmployee(){
+
+    return {
+
+        baseSalary:
+            num("baseSalary"),
+
+        hireDate:
+            text("hireDate"),
+
+        hasChildren:
+            text("hasChildren")==="yes",
+
+        hasEPS:
+            text("hasEPS")==="yes",
+
+        mealAllowance:
+            num("mealAllowance"),
+
+        workConditionAllowance:
+            num("workConditionAllowance"),
+
+        transportAllowance:
+            num("transportAllowance"),
+
+        reimbursement:
+            num("reimbursement"),
+
+        restSystem:
+            text("restSystem"),
+
+        absenceDays:
+            num("absenceDays"),
+
+        sickLeaveDays:
+            num("sickLeaveDays"),
+
+        priorSickDays:
+            num("priorSickDays"),
+
+        usedVacationDays:
+            num("usedVacationDays"),
+
+        annualLeaveCashDays:
+            num("annualLeaveCashDays"),
+
+        paternityBenefit:
+            num("paternityBenefit"),
+
+        extraSicknessBenefit:
+            num("extraSicknessBenefit"),
+
+        pensionSystem:
+            text("pensionSystem"),
+
+        afpCompany:
+            text("afpCompany"),
+
+        priorTaxableIncome:
+            num("priorTaxableIncome"),
+
+        priorTaxRetention:
+            num("priorTaxRetention"),
+
+        otherTaxableIncome:
+            num("otherTaxableIncome"),
+
+        heightBonus:
+            num("heightBonus"),
+
+        otherIncome:
+            num("otherIncome"),
+
+        courtDeduction:
+            num("courtDeduction"),
+
+        lateDeduction:
+            num("lateDeduction"),
+
+        salaryAdvance:
+            num("salaryAdvance"),
+
+        personalLoan:
+            num("personalLoan"),
+
+        otherDeduction:
+            num("otherDeduction"),
+
+        vidaLeyRate:
+            num("vidaLeyRate")
+    };
+
+}
+
+
+/* =========================================================
+   本月雇佣天数
+========================================================= */
+
+function getEmploymentDays(emp){
+
+    // 工资计薪月按30天基数处理：当月雇佣天数绝不超过30天。
+    // 31天月份（1/3/5/7/8/10/12）统一封顶为30天。
+    const total =
+        Math.min(
+            daysInMonth(
+                YEAR,
+                selectedMonth
+            ),
+            30
+        );
+
+    if(!emp.hireDate){
+        return total;
+    }
+
+    /*
+     * 使用本地日期，避免iPhone/Safari时区问题
+     */
+    const parts =
+        emp.hireDate.split("-");
+
+    if(parts.length!==3){
+        return total;
+    }
+
+    const hy =
+        Number(parts[0]);
+
+    const hm =
+        Number(parts[1]);
+
+    const hd =
+        Number(parts[2]);
+
+    if(
+        hy>YEAR ||
+        (hy===YEAR && hm>selectedMonth)
+    ){
+        return 0;
+    }
+
+    if(
+        hy===YEAR &&
+        hm===selectedMonth
+    ){
+        return clamp(
+            total-hd+1,
+            0,
+            total
+        );
+    }
+
+    return total;
+}
+
+
+/* =========================================================
+   加班拆分
+========================================================= */
+
+function calculateOvertime(){
+
+    let h25 = 0;
+
+    let h35 = 0;
+
+    let h100 = 0;
+
+    Object.keys(overtimeHours)
+        .forEach(ds=>{
+
+            const h =
+                Number(overtimeHours[ds]) || 0;
+
+            if(h<=0){
+                return;
+            }
+
+            /*
+             * ISO date手动解析
+             * 避免Safari/手机时区问题
+             */
+            const p =
+                ds.split("-");
+
+            const d =
+                new Date(
+                    Number(p[0]),
+                    Number(p[1])-1,
+                    Number(p[2])
+                );
+
+            const weekday =
+                d.getDay();
+
+            const holiday =
+                !!HOLIDAYS[ds];
+
+            /*
+             * 节假日
+             */
+            if(holiday){
+
+                h100 += h;
+
+                return;
+            }
+
+            /*
+             * 六休一：
+             * 星期日属于休息日
+             */
+            if(
+                weekday===0 &&
+                text("restSystem")==="6x1"
+            ){
+
+                h100 += h;
+
+                return;
+            }
+
+            /*
+             * 其他制度：
+             * 星期日仍然使用25% / 35%
+             */
+            h25 += Math.min(h,2);
+
+            h35 += Math.max(h-2,0);
+
+        });
+
+    return {
+        h25,
+        h35,
+        h100
+    };
+
+}
+
+
+/* =========================================================
+   计薪天数
+========================================================= */
+
+function calculateDays(emp){
+
+    const employmentDays =
+        getEmploymentDays(emp);
+
+    /*
+     * 实际出勤：
+     * 入职范围内的日历天数
+     * - 缺勤
+     * - 病假
+     * - 年假
+     *
+     * 工作条件补贴只看实际出勤。
+     */
+    const absenceDays = clamp(emp.absenceDays, 0, employmentDays);
+    const sickLeaveDays = clamp(emp.sickLeaveDays, 0, employmentDays);
+    const usedVacationDays = clamp(emp.usedVacationDays, 0, employmentDays);
+
+    const attendanceDays =
+        clamp(
+            employmentDays
+            - absenceDays
+            - sickLeaveDays
+            - usedVacationDays,
+            0,
+            employmentDays
+        );
+
+
+    /*
+     * 本年度前20天病假由雇主承担。
+     */
+    const employerSickDays =
+        clamp(
+            20 -
+            emp.priorSickDays,
+            0,
+            20
+        );
+
+    const sickPaidByEmployer =
+        Math.min(
+            sickLeaveDays,
+            employerSickDays
+        );
+
+    /*
+     * 第21天起EsSalud补助
+     */
+    const essaludSickDays =
+        Math.max(
+            sickLeaveDays -
+            sickPaidByEmployer,
+            0
+        );
+
+
+    /*
+     * 基本工资：
+     * 只计算真正工资工作日。
+     *
+     * 病假和年假另列项目，
+     * 避免重复计算。
+     */
+    const basicSalaryDays =
+        clamp(
+            employmentDays
+            - absenceDays
+            - sickLeaveDays
+            - usedVacationDays,
+            0,
+            employmentDays
+        );
+
+
+    return {
+
+        employmentDays,
+
+        attendanceDays,
+
+        basicSalaryDays,
+
+        employerSickDays:
+            sickPaidByEmployer,
+
+        essaludSickDays
+
+    };
+
+}
+
+
+/* =========================================================
+   休假 / 病假金额
+========================================================= */
+
+function calculateLeave(emp,days){
+
+    const dailyBasic =
+        emp.baseSalary / 30;
+
+
+    /*
+     * 年假：
+     * 休假期间仍属于有薪休假。
+     *
+     * 为避免和家庭补贴重复，
+     * 这里只计算基本工资部分。
+     */
+    const vacationDays =
+        clamp(
+            emp.usedVacationDays,
+            0,
+            days.employmentDays
+        );
+
+    const vacationPay =
+        dailyBasic *
+        vacationDays;
+
+
+    /*
+     * 前20天病假：
+     * 雇主继续支付工资。
+     */
+    const employerSickPay =
+        dailyBasic *
+        days.employerSickDays;
+
+
+    /*
+     * EsSalud部分：
+     *
+     * 实际金额需以EsSalud核定。
+     *
+     * 这里采用4个月平均工资
+     * 作为估算。
+     */
+    const estimatedSickSubsidy =
+        dailyBasic *
+        days.essaludSickDays;
+
+
+    const sicknessBenefit =
+        estimatedSickSubsidy +
+        emp.extraSicknessBenefit;
+
+
+    return {
+
+        vacationPay,
+
+        employerSickPay,
+
+        sicknessBenefit
+
+    };
+
+}
+
+
+/* =========================================================
+   Gratificación
+========================================================= */
+
+function monthsWorkedInSemester(
+    emp,
+    startMonth,
+    endMonth
+){
+
+    if(!emp.hireDate){
+        return endMonth-startMonth+1;
+    }
+
+    const p =
+        emp.hireDate.split("-");
+
+    const hireYear =
+        Number(p[0]);
+
+    const hireMonth =
+        Number(p[1]);
+
+    const hireDay =
+        Number(p[2]);
+
+    let count=0;
+
+    for(
+        let m=startMonth;
+        m<=endMonth;
+        m++
+    ){
+
+        /*
+         * Gratificación要求完整日历月。
+         *
+         * 如果入职日不是1号，
+         * 入职月份不算完整月。
+         */
+        if(
+            hireYear===YEAR &&
+            m===hireMonth &&
+            hireDay!==1
+        ){
+            continue;
+        }
+
+        if(
+            hireYear>YEAR ||
+            (hireYear===YEAR &&
+             m<hireMonth)
+        ){
+            continue;
+        }
+
+        count++;
+    }
+
+    return clamp(count,0,6);
+}
+
+
+/*
+ * Ley 30334 / Ley 29351 — Bonificación Extraordinaria
+ *
+ * 规则：该奖金不是额外“加成工资”，而是把雇主本应
+ * 就7月/12月法定gratificación缴纳给EsSalud的金额，
+ * 按法律转给劳动者。
+ *
+ * EsSalud：9% × 实际应付的gratificación
+ * EPS：6.75% × 实际应付的gratificación
+ *
+ * 该奖金与gratificación同时支付；本身不具有
+ * remunerativo / pensionable 性质，但属于第五类所得税
+ * 的应税收入。
+ */
+function calculateExtraordinaryBonus(
+    gratification,
+    hasEPS
+){
+
+    const grati = Number(gratification) || 0;
+
+    if(grati <= 0){
+        return 0;
+    }
+
+    const rate =
+        hasEPS
+        ? 0.0675
+        : 0.09;
+
+    return grati * rate;
+}
+
+
+function calculateGratification(
+    emp,
+    month,
+    currentRemuneration
+){
+
+    /*
+     * 当前月不是7月/12月：
+     * 当前工资表不支付Gratificación。
+     */
+    if(month!==7 && month!==12){
+
+        return {
+            gratification:0,
+            extraBonus:0,
+            eligibleMonths:0
+        };
+
+    }
+
+
+    /*
+     * 7月：
+     * 计算1~6月完整月份。
+     */
+    if(month===7){
+
+        const months =
+            monthsWorkedInSemester(
+                emp,
+                1,
+                6
+            );
+
+        if(months<1){
+
+            return {
+                gratification:0,
+                extraBonus:0,
+                eligibleMonths:0
+            };
+
+        }
+
+        /*
+         * 法定gratificación的固定可计薪基数：
+         * 基本工资 + 家庭补贴。
+         *
+         * 餐补、交通补贴、工作条件补贴等是否属于
+         * remuneración computable，取决于其法律性质；
+         * 本程序不在没有历史/性质资料时擅自计入。
+         */
+        /*
+         * 12月同样以11月30日时点的可计薪固定报酬为基准。
+         */
+        const compBase =
+            emp.baseSalary +
+            (
+                emp.hasChildren
+                ? FAMILY_ALLOWANCE
+                : 0
+            );
+
+        const grati =
+            compBase *
+            months /
+            6;
+
+        const extra =
+            calculateExtraordinaryBonus(
+                grati,
+                emp.hasEPS
+            );
+
+        return {
+            gratification:grati,
+            extraBonus:extra,
+            eligibleMonths:months
+        };
+    }
+
+
+    /*
+     * 12月：
+     * 计算7~12月完整月份。
+     */
+    if(month===12){
+
+        const months =
+            monthsWorkedInSemester(
+                emp,
+                7,
+                12
+            );
+
+        if(months<1){
+
+            return {
+                gratification:0,
+                extraBonus:0,
+                eligibleMonths:0
+            };
+
+        }
+
+        const compBase =
+            emp.baseSalary +
+            (
+                emp.hasChildren
+                ? FAMILY_ALLOWANCE
+                : 0
+            );
+
+        const grati =
+            compBase *
+            months /
+            6;
+
+        const extra =
+            calculateExtraordinaryBonus(
+                grati,
+                emp.hasEPS
+            );
+
+        return {
+            gratification:grati,
+            extraBonus:extra,
+            eligibleMonths:months
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   AFP / ONP
+========================================================= */
+
+function calculatePension(
+    emp,
+    pensionBase
+){
+
+    if(emp.pensionSystem==="AFP"){
+
+        const rate =
+            AFP_RATE[emp.afpCompany]
+            || AFP_RATE.Habitat;
+
+        const aporte =
+            pensionBase *
+            rate.aporte /
+            100;
+
+        const prima =
+            pensionBase *
+            rate.prima /
+            100;
+
+        /*
+         * 流量佣金按AFP官方费率计算。
+         */
+        const commission =
+            pensionBase *
+            rate.commission /
+            100;
+
+        return {
+
+            type:"AFP",
+
+            base:pensionBase,
+
+            aporte,
+
+            prima,
+
+            commission,
+
+            total:
+                aporte +
+                prima +
+                commission
+        };
+
+    }
+
+
+    const onp =
+        pensionBase *
+        0.13;
+
+    return {
+
+        type:"ONP",
+
+        base:pensionBase,
+
+        aporte:onp,
+
+        prima:0,
+
+        commission:0,
+
+        total:onp
+
+    };
+
+}
+
+
+/* =========================================================
+   Renta 5ta
+========================================================= */
+
+function progressiveTax(taxable){
+
+    if(taxable<=0){
+        return 0;
+    }
+
+    const brackets = [
+
+        {
+            limit:5*UIT,
+            rate:0.08
+        },
+
+        {
+            limit:20*UIT,
+            rate:0.14
+        },
+
+        {
+            limit:35*UIT,
+            rate:0.17
+        },
+
+        {
+            limit:45*UIT,
+            rate:0.20
+        },
+
+        {
+            limit:Infinity,
+            rate:0.30
+        }
+
+    ];
+
+    let tax=0;
+
+    let previous=0;
+
+    for(const b of brackets){
+
+        const upper =
+            Math.min(
+                taxable,
+                b.limit
+            );
+
+        const segment =
+            upper -
+            previous;
+
+        if(segment>0){
+
+            tax +=
+                segment *
+                b.rate;
+
+        }
+
+        if(taxable<=b.limit){
+            break;
+        }
+
+        previous =
+            b.limit;
+    }
+
+    return tax;
+}
+
+
+function calculateRenta5ta(
+    emp,
+    payroll
+){
+
+    const month =
+        selectedMonth;
+
+
+    /*
+     * 当前月普通应税工资
+     */
+    const currentMonthlyTaxable =
+        payroll.taxableMonthly;
+
+
+    /*
+     * 未来月份：
+     * 使用完整月的正常预计工资，
+     * 而不是把7月25天工资复制到全年。
+     */
+    const futureMonthlyTaxable =
+        payroll.futureMonthlyTaxable;
+
+
+    /*
+     * 当前月及以后剩余月份
+     */
+    const monthsRemaining =
+        12-month+1;
+
+
+    /*
+     * 前期收入
+     */
+    const priorIncome =
+        emp.priorTaxableIncome;
+
+
+    /*
+     * 当前月 + 后续月份
+     */
+    const projectedCurrentAndFuture =
+        currentMonthlyTaxable
+        +
+        futureMonthlyTaxable *
+        Math.max(
+            monthsRemaining-1,
+            0
+        );
+
+
+    /*
+     * 未来普通Gratificaciones
+     */
+    let projectedGratifications = 0;
+
+    let projectedExtraBonus = 0;
+
+
+    /*
+     * 7月如果本月已经支付
+     */
+    if(
+        month===7 &&
+        payroll.gratification>0
+    ){
+
+        projectedGratifications +=
+            payroll.gratification;
+
+        projectedExtraBonus +=
+            payroll.extraBonus;
+    }
+
+
+    /*
+     * 如果目前是1~6月：
+     * 预计7月Gratificación
+     */
+    if(month<7){
+
+        const g =
+            calculateGratification(
+                emp,
+                7,
+                futureMonthlyTaxable
+            );
+
+        projectedGratifications +=
+            g.gratification;
+
+        projectedExtraBonus +=
+            g.extraBonus;
+    }
+
+
+    /*
+     * 12月
+     */
+    if(month<12){
+
+        const g =
+            calculateGratification(
+                emp,
+                12,
+                futureMonthlyTaxable
+            );
+
+        projectedGratifications +=
+            g.gratification;
+
+        projectedExtraBonus +=
+            g.extraBonus;
+    }
+
+
+    /*
+     * 全年预计第五类收入
+     */
+    const annualGross =
+        priorIncome
+        +
+        projectedCurrentAndFuture
+        +
+        projectedGratifications
+        +
+        projectedExtraBonus
+        +
+        emp.otherTaxableIncome;
+
+
+    /*
+     * 7 UIT
+     */
+    const annualTaxable =
+        Math.max(
+            annualGross -
+            7*UIT,
+            0
+        );
+
+
+    /*
+     * 年度预计税额
+     */
+    const annualTax =
+        progressiveTax(
+            annualTaxable
+        );
+
+
+    /*
+     * SUNAT月度分摊
+     */
+    let denominator;
+
+    if(month<=3){
+
+        denominator=12;
+
+    }else if(month===4){
+
+        denominator=9;
+
+    }else if(month>=5 && month<=7){
+
+        denominator=8;
+
+    }else if(month===8){
+
+        denominator=5;
+
+    }else if(month>=9 && month<=11){
+
+        denominator=4;
+
+    }else{
+
+        denominator=1;
+
+    }
+
+
+    /*
+     * 之前已经扣掉的Renta
+     */
+    const previousRetention =
+        emp.priorTaxRetention;
+
+
+    let normalRetention=0;
+
+
+    if(month===12){
+
+        normalRetention =
+            Math.max(
+                annualTax -
+                previousRetention,
+                0
+            );
+
+    }else{
+
+        normalRetention =
+            Math.max(
+                annualTax -
+                previousRetention,
+                0
+            )
+            /
+            denominator;
+
+    }
+
+
+    /*
+     * 本月普通收入已经包含在年度预测中，
+     * 因此这里只返回正常预扣。
+     *
+     * Gratificación本身也已进入年度预测。
+     */
+    const retention =
+        Math.max(
+            normalRetention,
+            0
+        );
+
+
+    return {
+
+        annualGross,
+
+        annualTaxable,
+
+        annualTax,
+
+        retention,
+
+        denominator,
+
+        priorRetention:
+            previousRetention
+
+    };
+
+}
+
+
+/* =========================================================
+   主工资计算
+========================================================= */
+
+function calculatePayroll(){
+
+    const emp =
+        readEmployee();
+
+
+    /*
+     * 天数
+     */
+    const days =
+        calculateDays(emp);
+
+
+    /*
+     * 日薪
+     */
+    const dailyBasic =
+        emp.baseSalary / 30;
+
+
+    /*
+     * 时薪：
+     * 秘鲁普通加班计算：
+     * 月薪 / 30 / 8
+     */
+    const hourValue =
+        emp.baseSalary /
+        30 /
+        8;
+
+
+    /*
+     * 基本工资
+     */
+    const basicSalaryPaid =
+        dailyBasic *
+        days.basicSalaryDays;
+
+
+    /*
+     * 家庭补贴：
+     * 不因为25天简单按25/30打折。
+     */
+    const familyAllowance =
+        emp.hasChildren
+        ? FAMILY_ALLOWANCE
+        : 0;
+
+
+    /*
+     * 工作条件补贴：
+     * 必须按实际出勤天数
+     */
+    const workConditionPaid =
+        emp.workConditionAllowance /
+        30 *
+        days.attendanceDays;
+
+
+    /*
+     * 餐补：
+     * 默认按实际出勤
+     */
+    const mealPaid =
+        emp.mealAllowance /
+        30 *
+        days.attendanceDays;
+
+
+    /*
+     * 交通：
+     * 默认按实际出勤
+     */
+    const transportPaid =
+        emp.transportAllowance /
+        30 *
+        days.attendanceDays;
+
+
+    /*
+     * 病假/年假
+     */
+    const leave =
+        calculateLeave(
+            emp,
+            days
+        );
+
+
+    /*
+     * 加班
+     */
+    const overtime =
+        calculateOvertime();
+
+
+    const overtime25 =
+        overtime.h25 *
+        hourValue *
+        1.25;
+
+
+    const overtime35 =
+        overtime.h35 *
+        hourValue *
+        1.35;
+
+
+    const overtime100 =
+        overtime.h100 *
+        hourValue *
+        2;
+
+
+    /*
+     * 其他收入
+     */
+    const otherIncome =
+        emp.heightBonus +
+        emp.otherIncome;
+
+
+    /*
+     * Gratificación
+     */
+    const grati =
+        calculateGratification(
+            emp,
+            selectedMonth,
+            emp.baseSalary
+        );
+
+
+    /*
+     * 计税工资：
+     * 这里不把报销自动视为第五类应税工资。
+     */
+    const taxableMonthly =
+        basicSalaryPaid
+        +
+        familyAllowance
+        +
+        overtime25
+        +
+        overtime35
+        +
+        overtime100
+        +
+        workConditionPaid
+        +
+        leave.vacationPay
+        +
+        leave.employerSickPay
+        +
+        leave.sicknessBenefit
+        +
+        emp.paternityBenefit
+        +
+        otherIncome;
+
+
+    /*
+     * 未来正常月份的预计应税收入
+     */
+    const futureMonthlyTaxable =
+        emp.baseSalary
+        +
+        familyAllowance
+        +
+        emp.workConditionAllowance
+        +
+        otherIncome;
+
+
+    /*
+     * AFP/ONP基数：
+     * 当前版本仍按原工资表口径：基本工资 + 家庭补贴。
+     * 注意：实际PLAME中的“remuneración asegurable”需根据
+     * 各项收入是否具有 remunerative 性质逐项判断，不能简单假定所有项目都排除。
+     */
+    const pensionBase =
+        basicSalaryPaid +
+        familyAllowance;
+
+
+    const pension =
+        calculatePension(
+            emp,
+            pensionBase
+        );
+
+
+    /*
+     * Renta 5ta：
+     * Ley 30334奖金虽然不是pensionable/remunerative，
+     * 但属于第五类所得税的应税收入，因此传入年度预测。
+     */
+    const renta =
+        calculateRenta5ta(
+            emp,
+            {
+                taxableMonthly,
+
+                futureMonthlyTaxable,
+
+                gratification:
+                    grati.gratification,
+
+                extraBonus:
+                    grati.extraBonus
+            }
+        );
+
+
+    /*
+     * 年假折现：
+     * 按你之前确认的Excel规则：
+     * 日薪 × 折现天数
+     */
+    const vacationCash =
+        dailyBasic *
+        emp.annualLeaveCashDays;
+
+
+    /*
+     * 总收入
+     */
+    const incomeItems = [
+
+        {
+            name:
+                "SUELDO BÁSICO 基本工资",
+            amount:
+                basicSalaryPaid
+        },
+
+        {
+            name:
+                "ASIG. FAMILIAR 家庭补贴",
+            amount:
+                familyAllowance
+        },
+
+        {
+            name:
+                "VACACIONES 休假工资",
+            amount:
+                leave.vacationPay
+        },
+
+        {
+            name:
+                "COMPRA VACACIONAL 年假折现",
+            amount:
+                vacationCash
+        },
+
+        {
+            name:
+                "DESCANSO MÉDICO 病假工资",
+            amount:
+                leave.employerSickPay
+        },
+
+        {
+            name:
+                "SUBSIDIO ENFERMEDAD 疾病补助",
+            amount:
+                leave.sicknessBenefit
+        },
+
+        {
+            name:
+                "ASIG. ALIMENTACIÓN 餐补",
+            amount:
+                mealPaid
+        },
+
+        {
+            name:
+                "CONDICIÓN TRABAJO 工作条件补贴",
+            amount:
+                workConditionPaid
+        },
+
+        {
+            name:
+                "MOVILIDAD 交通补贴",
+            amount:
+                transportPaid
+        },
+
+        {
+            name:
+                "HORAS EXTRAS 25% 25%加班费",
+            amount:
+                overtime25
+        },
+
+        {
+            name:
+                "HORAS EXTRAS 35% 35%加班费",
+            amount:
+                overtime35
+        },
+
+        {
+            name:
+                "HORAS EXTRAS 100% 节假日/休息日加班费",
+            amount:
+                overtime100
+        },
+
+        {
+            name:
+                "LICENCIA PATERNIDAD 陪产假津贴",
+            amount:
+                emp.paternityBenefit
+        },
+
+        {
+            name:
+                "BONO POR ALTURA 高空补贴",
+            amount:
+                emp.heightBonus
+        },
+
+        {
+            name:
+                "REINTEGROS 报销返还",
+            amount:
+                emp.reimbursement
+        },
+
+        {
+            name:
+                "OTROS INGRESOS 其他收入",
+            amount:
+                emp.otherIncome
+        }
+
+    ];
+
+
+    /*
+     * 只有实际支付月份才进入本月收入
+     */
+    if(grati.gratification>0){
+
+        incomeItems.push({
+
+            name:
+                "GRATIFICACIONES 双薪",
+
+            amount:
+                grati.gratification
+        });
+
+        incomeItems.push({
+
+            name:
+                `BONIF. EXTRAORDINARIA ${emp.hasEPS ? "6.75%" : "9%"} 法定额外奖金`,
+
+            amount:
+                grati.extraBonus
+        });
+
+    }
+
+
+    const totalIncome =
+        incomeItems.reduce(
+            (sum,item)=>
+                sum + item.amount,
+            0
+        );
+
+
+    /*
+     * 员工扣款
+     */
+    const deductionItems = [];
+
+
+    if(emp.pensionSystem==="AFP"){
+
+        deductionItems.push({
+
+            name:
+                "AFP APORTE OBLIGATORIO AFP强制缴存",
+
+            amount:
+                pension.aporte
+
+        });
+
+
+        deductionItems.push({
+
+            name:
+                "AFP PRIMA DE SEGURO AFP保险费",
+
+            amount:
+                pension.prima
+
+        });
+
+
+        /*
+         * 标准表要求0
+         */
+        deductionItems.push({
+
+            name:
+                "AFP COMISIÓN AFP管理费",
+
+            amount:
+                pension.commission
+
+        });
+
+    }else{
+
+        deductionItems.push({
+
+            name:
+                "ONP 13% 国家养老金",
+
+            amount:
+                pension.aporte
+
+        });
+
+    }
+
+
+    deductionItems.push({
+
+        name:
+            "RENTA 5TA CATEGORÍA 第五类税",
+
+        amount:
+            renta.retention
+
+    });
+
+
+    deductionItems.push({
+
+        name:
+            "ADELANTO SUELDO 预支工资",
+
+        amount:
+            emp.salaryAdvance
+
+    });
+
+
+    deductionItems.push({
+
+        name:
+            "PRÉSTAMOS AL PERSONAL 员工贷款",
+
+        amount:
+            emp.personalLoan
+
+    });
+
+
+    deductionItems.push({
+
+        name:
+            "RETENCIÓN JUDICIAL 法院扣款",
+
+        amount:
+            emp.courtDeduction
+
+    });
+
+
+    deductionItems.push({
+
+        name:
+            "TARDANZAS / FALTAS 迟到/事假扣款",
+
+        amount:
+            emp.lateDeduction
+
+    });
+
+
+    deductionItems.push({
+
+        name:
+            "OTROS DESCUENTOS 其他扣款",
+
+        amount:
+            emp.otherDeduction
+
+    });
+
+
+    const totalDeductions =
+        deductionItems.reduce(
+            (sum,item)=>
+                sum + item.amount,
+            0
+        );
+
+
+    /*
+     * 实发
+     */
+    const netSalary =
+        Math.max(
+            totalIncome -
+            totalDeductions,
+            0
+        );
+
+
+    /*
+     * 雇主承担项目
+     */
+
+    /*
+     * EsSalud：
+     * 标准工资表：
+     * 11,779.67 × 9%
+     * = 1,060.17
+     */
+    const essalud =
+        pensionBase *
+        0.09;
+
+
+    /*
+     * EPS credit
+     *
+     * EPS通常属于EsSalud缴费中的信用，
+     * 不是额外从员工工资扣除。
+     */
+    const epsCredit =
+        emp.hasEPS
+        ? pensionBase * 0.0225
+        : 0;
+
+
+    /*
+     * Vida Ley：
+     * 雇主承担
+     */
+    const vidaLey =
+        pensionBase *
+        emp.vidaLeyRate /
+        100;
+
+
+    const employerContributionTotal =
+        essalud +
+        vidaLey;
+
+
+    return {
+
+        emp,
+
+        days,
+
+        dailyBasic,
+
+        hourValue,
+
+        basicSalaryPaid,
+
+        familyAllowance,
+
+        workConditionPaid,
+
+        mealPaid,
+
+        transportPaid,
+
+        vacationCash,
+
+        leave,
+
+        overtime,
+
+        overtime25,
+
+        overtime35,
+
+        overtime100,
+
+        grati,
+
+        incomeItems,
+
+        totalIncome,
+
+        pension,
+
+        pensionBase,
+
+        renta,
+
+        deductionItems,
+
+        totalDeductions,
+
+        netSalary,
+
+        essalud,
+
+        epsCredit,
+
+        vidaLey,
+
+        employerContributionTotal
+
+    };
+
+}
+
+
+/* =========================================================
+   Detail UI
+========================================================= */
+
+function row(
+    name,
+    amount,
+    cls="",
+    unit="S/"
+){
+
+    /* 所有数值为0、空值或非有效数字的项目不显示 */
+    const n = Number(amount);
+
+    if(!Number.isFinite(n) || n === 0){
+        return "";
+    }
+
+    const valueText =
+        unit === "天"
+        ? `${n.toFixed(2)} 天`
+        : money(n);
+
+    return `
+        <div class="item-row">
+
+            <span>
+                ${name}
+            </span>
+
+            <span class="${cls}">
+                ${valueText}
+            </span>
+
+        </div>
+    `;
+
+}
+
+
+function totalRow(
+    name,
+    amount,
+    cls="",
+    prefix=""
+){
+
+    const n = Number(amount);
+
+    if(!Number.isFinite(n) || n === 0){
+        return "";
+    }
+
+    return `
+        <div class="item-row total">
+            <span>${name}</span>
+            <span class="${cls}">${prefix}${money(n)}</span>
+        </div>
+    `;
+}
+
+
+function renderDetail(res){
+
+    const container =
+        document.getElementById(
+            "detailContent"
+        );
+
+    if(!container){
+        return;
+    }
+
+
+    let html="";
+
+
+    /* =========================
+       收入
+    ========================= */
+
+    html += `
+        <div class="form-group">
+
+            <h3>
+                INGRESOS 收入
+            </h3>
+    `;
+
+
+    res.incomeItems
+        .forEach(item=>{
+
+            html += row(
+                item.name,
+                item.amount,
+                "money-green"
+            );
+
+        });
+
+
+    html += `
+
+            ${totalRow(
+                "TOTAL INGRESOS 总收入",
+                res.totalIncome,
+                "money-green"
+            )}
+
+        </div>
+    `;
+
+
+    /* =========================
+       计薪
+    ========================= */
+
+    html += `
+
+        <div class="form-group">
+
+            <h3>
+                CÁLCULO SALARIAL 工资计算
+            </h3>
+
+            ${row(
+                "DÍAS DE EMPLEO 当月雇佣天数（上限30）",
+                res.days.employmentDays,
+                "",
+                "天"
+            )}
+
+            ${row(
+                "DÍAS DE ASISTENCIA 实际出勤天数",
+                res.days.attendanceDays,
+                "",
+                "天"
+            )}
+
+            ${row(
+                "DÍAS DE SUELDO 基本工资计薪天数",
+                res.days.basicSalaryDays,
+                "",
+                "天"
+            )}
+
+          ${row(
+                "BASE AFP/ONP 养老基数",
+                res.pensionBase
+            )}
+
+        </div>
+    `;
+
+
+    /* =========================
+       AFP / ONP
+    ========================= */
+
+    html += `
+
+        <div class="form-group">
+
+            <h3>
+                PENSIONES 养老扣款
+            </h3>
+    `;
+
+
+    if(res.pension.type==="AFP"){
+
+        html += row(
+            "AFP APORTE OBLIGATORIO AFP强制缴存",
+            res.pension.aporte,
+            "money-red"
+        );
+
+        html += row(
+            "AFP PRIMA DE SEGURO AFP保险费",
+            res.pension.prima,
+            "money-red"
+        );
+
+        html += row(
+            "AFP COMISIÓN AFP管理费",
+            res.pension.commission,
+            "money-red"
+        );
+
+    }else{
+
+        html += row(
+            "ONP 13% 国家养老金",
+            res.pension.aporte,
+            "money-red"
+        );
+
+    }
+
+
+    html += `
+
+            ${totalRow(
+                "TOTAL PENSIÓN 养老扣款合计",
+                res.pension.total,
+                "money-red",
+                "- "
+            )}
+
+        </div>
+    `;
+
+
+    /* =========================
+       Renta 5ta
+    ========================= */
+
+    html += `
+
+        <div class="form-group">
+
+            <h3>
+                RENTA 5TA CATEGORÍA 第五级类所得税
+            </h3>
+
+            ${row(
+                "REMUNERACIÓN BRUTA ANUAL PROYECTADA 年度预计第五类收入",
+                res.renta.annualGross
+            )}
+
+            ${row(
+                "7 UIT DEDUCCIÓN 7 UIT扣除",
+                7*UIT
+            )}
+
+            ${row(
+                "RENTA NETA PROYECTADA 年度预计应税收入",
+                res.renta.annualTaxable
+            )}
+
+            ${row(
+                "IMPUESTO ANUAL PROYECTADO 年度预计税额",
+                res.renta.annualTax
+            )}
+
+            ${row(
+                "RETENCIONES PREVIAS 前期已扣税额",
+                res.renta.priorRetention
+            )}
+
+            ${row(
+                "RETENCIÓN DEL MES 本月第五类所得税",
+                res.renta.retention,
+                "money-red"
+            )}
+
+        </div>
+    `;
+
+
+    /* =========================
+       扣款
+    ========================= */
+
+    html += `
+
+        <div class="form-group">
+
+            <h3>
+                DEDUCCIONES 扣款
+            </h3>
+    `;
+
+
+    res.deductionItems
+        .forEach(item=>{
+
+            html += totalRow(
+                item.name,
+                item.amount,
+                "money-red",
+                "- "
+            ).replace('item-row total', 'item-row');
+
+        });
+
+
+    html += `
+
+            ${totalRow(
+                "TOTAL DESCUENTOS 扣款合计",
+                res.totalDeductions,
+                "money-red",
+                "- "
+            )}
+
+        </div>
+    `;
+
+
+    /* =========================
+       雇主承担
+    ========================= */
+
+    html += `
+
+        <div class="form-group">
+
+            <h3>
+                APORTES DEL EMPLEADOR 雇主承担
+            </h3>
+
+            ${row(
+                "ESSALUD 9% 医疗保险",
+                res.essalud,
+                "money-blue"
+            )}
+
+            ${row(
+                "CRÉDITO EPS EPS抵扣",
+                res.epsCredit,
+                "money-blue"
+            )}
+
+            ${row(
+                "SEGURO VIDA LEY 法律生命保险",
+                res.vidaLey,
+                "money-blue"
+            )}
+
+            ${totalRow(
+                "TOTAL APORTES 总雇主承担",
+                res.employerContributionTotal,
+                "money-blue"
+            )}
+
+        </div>
+    `;
+      
+
+
+    /* =========================
+       Neto
+    ========================= */
+
+    html += `
+
+        <div class="neto-box">
+
+            <div class="label">
+                TOTAL A PAGAR · 实发工资 Neto
+            </div>
+
+            <div class="money">
+                ${Number(res.netSalary) === 0 ? "" : money(res.netSalary)}
+            </div>
+
+        </div>
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =========================================================
+   Recalculate
+========================================================= */
+
+function recalculate(){
+
+    try{
+
+        const result =
+            calculatePayroll();
+
+
+        document.getElementById("ov25")
+            .textContent =
+            Number(result.overtime.h25) === 0 ? "" : result.overtime.h25.toFixed(2);
+
+
+        document.getElementById("ov35")
+            .textContent =
+            Number(result.overtime.h35) === 0 ? "" : result.overtime.h35.toFixed(2);
+
+
+        document.getElementById("ov100")
+            .textContent =
+            Number(result.overtime.h100) === 0 ? "" : result.overtime.h100.toFixed(2);
+
+
+        renderDetail(result);
+
+
+        const footer =
+            document.getElementById(
+                "footerNeto"
+            );
+
+        if(footer){
+
+            footer.textContent =
+                Number(result.netSalary) === 0 ? "" : money(result.netSalary);
+
+        }
+
+    }catch(error){
+
+        /*
+         * 防止一个字段错误
+         * 直接让整个手机页面失效
+         */
+        console.error(
+            "Payroll calculation error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   自动重算
+========================================================= */
+
+function initFormEvents(){
+
+    const form =
+        document.getElementById(
+            "tab-emp"
+        );
+
+    if(!form){
+        return;
+    }
+
+
+    form
+        .querySelectorAll(
+            "input,select"
+        )
+        .forEach(el=>{
+
+            el.addEventListener(
+                "input",
+                recalculate
+            );
+
+            el.addEventListener(
+                "change",
+                recalculate
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   Pension UI
+========================================================= */
+
+function updatePensionUI(){
+
+    const pension =
+        document.getElementById(
+            "pensionSystem"
+        );
+
+    const afpRow =
+        document.getElementById(
+            "afpRow"
+        );
+
+    if(!pension || !afpRow){
+        return;
+    }
+
+    if(pension.value==="AFP"){
+
+        afpRow.style.display =
+            "block";
+
+    }else{
+
+        afpRow.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   初始化
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        initTabs();
+
+        initMonth();
+
+        initFormEvents();
+
+        const pension =
+            document.getElementById(
+                "pensionSystem"
+            );
+
+        if(pension){
+
+            pension.addEventListener(
+                "change",
+                updatePensionUI
+            );
+
+        }
+
+        updatePensionUI();
+
+        updateFooterMonth();
+
+        renderCalendar();
+
+        recalculate();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
